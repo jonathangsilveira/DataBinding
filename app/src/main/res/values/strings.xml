@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">KotlinDataBinding</string>
+    <string name="credit" translatable="false">Credit</string>
+    <string name="debit" translatable="false">Debit</string>
+    <string name="show_values">Show values</string>
+    <string name="bank">Bank</string>
+    <string name="value">Value</string>
+</resources>
