@@ -20,8 +20,10 @@ class TwoWayActivity : AppCompatActivity() {
                 this.viewModel?.onPaymentoMethodSelected(view.findViewById<RadioButton>(checkedId)?.tag?.toString())
             }
             value.setAfterTextChangedListener { newValue ->
-                if (this.viewModel?.value?.value != newValue)
-                    this.viewModel?.value?.value = newValue
+                viewModel?.value?.let { property ->
+                    if (newValue != property.value)
+                        property.value = newValue
+                }
             }
         }
     }

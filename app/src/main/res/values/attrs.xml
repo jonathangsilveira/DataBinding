@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="MoneyTextInputEditText">
+    <declare-styleable name="CurrencyTextInputEditText">
         <attr name="value" format="float" />
+        <attr name="max" format="float" />
     </declare-styleable>
 </resources>

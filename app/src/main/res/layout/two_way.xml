@@ -37,11 +37,11 @@
                     style="@style/ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox"
                     android:id="@+id/textInputLayout">
 
-                <br.edu.jonathangsilveira.kotlindatabinding.ui.MoneyTextInputEditText
+                <br.edu.jonathangsilveira.kotlindatabinding.ui.CurrencyTextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/value"
-                        custom:value="@{viewModel.value}"
+                        custom:value="@{safeUnbox(viewModel.value)}"
                         android:id="@+id/value"/>
 
             </android.support.design.widget.TextInputLayout>

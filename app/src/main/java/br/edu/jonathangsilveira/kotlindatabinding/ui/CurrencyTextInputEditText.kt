@@ -12,7 +12,7 @@ import br.edu.jonathangsilveira.kotlindatabinding.util.format
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-class MoneyTextInputEditText : TextInputEditText {
+class CurrencyTextInputEditText : TextInputEditText {
 
     private val valueBuilder = StringBuilder()
 
@@ -22,7 +22,7 @@ class MoneyTextInputEditText : TextInputEditText {
 
     private val mClearImage: Drawable? = null
 
-    private var ownTextWatcher: MoneyTextWatcher? = null
+    private var ownTextWatcher: CurrencyTextWatcher? = null
 
     private var afterTextChanged: ((value: Double) -> Unit)? = null
 
@@ -36,12 +36,11 @@ class MoneyTextInputEditText : TextInputEditText {
         set(value) = updateValue(value)
 
     private fun updateValue(value: Double) {
+        if (value == this.value)
+            return
         val newValue = value * 100
         _value = BigDecimal.valueOf(newValue)
-        valueBuilder.clear()
         setText(newValue.toLong().toString())
-        invalidate()
-        requestLayout()
     }
 
     constructor(context: Context) : super(context) {
@@ -54,17 +53,29 @@ class MoneyTextInputEditText : TextInputEditText {
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) :
             super(context, attrs, defStyleAttr) {
-        setup(attrs)
+        setup(attrs, defStyleAttr)
     }
 
-    private fun setup(attrs: AttributeSet?) {
+    private fun setup(attrs: AttributeSet?, defStyleAttr: Int = 0, defStyleRes: Int = 0) {
         context.theme.obtainStyledAttributes(
             attrs,
-            R.styleable.MoneyTextInputEditText,
-            0, 0).apply {
+            R.styleable.CurrencyTextInputEditText,
+            defStyleAttr,
+            defStyleRes
+        ).apply {
             try {
-                val attrValue = getFloat(R.styleable.MoneyTextInputEditText_value, 0F)
-                _value = attrValue.toBigDecimal()
+                getFloat(
+                    R.styleable.CurrencyTextInputEditText_value,
+                    0F
+                ).also { attrValue ->
+                    _value = attrValue.toBigDecimal()
+                }
+                getFloat(
+                    R.styleable.CurrencyTextInputEditText_max,
+                    999999999.99f
+                ).also { attrMax ->
+                    max = attrMax.toDouble()
+                }
             } finally {
                 recycle()
             }
@@ -73,8 +84,7 @@ class MoneyTextInputEditText : TextInputEditText {
                 ResourcesCompat.getDrawable(getResources(), R.drawable.round_clear_black_24, null);
         setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);*/
         inputType = InputType.TYPE_CLASS_NUMBER
-        ownTextWatcher = MoneyTextWatcher()
-        addTextChangedListener(ownTextWatcher)
+        addTextChangedListener(CurrencyTextWatcher())
         //setOnTouchListener(new OnClearPressed());
     }
 
@@ -95,13 +105,6 @@ class MoneyTextInputEditText : TextInputEditText {
         return value.divide(devider, 2, RoundingMode.UNNECESSARY)
     }
 
-    /*fun setValue(value: Double) {
-        val newValue = value * 100
-        _value = BigDecimal.valueOf(newValue)
-        valueBuilder.clear()
-        setText(newValue.toLong().toString())
-    }*/
-
     fun setAfterTextChangedListener(action: (value: Double) -> Unit) {
         afterTextChanged = action
     }
@@ -109,7 +112,7 @@ class MoneyTextInputEditText : TextInputEditText {
     /**
      * TextWatcher to handle the user input for monetary values.
      */
-    private inner class MoneyTextWatcher : TextWatcher {
+    private inner class CurrencyTextWatcher : TextWatcher {
 
         override fun beforeTextChanged(text: CharSequence, start: Int, count: Int, after: Int) {
 
@@ -131,9 +134,8 @@ class MoneyTextInputEditText : TextInputEditText {
             }
             if (inserting) {
                 val valueToAppend = value.substring(start, start + count)
-                if (isValid(valueToAppend)) {
+                if (isValid(valueToAppend))
                     valueBuilder.append(valueToAppend)
-                }
             }
         }
 
