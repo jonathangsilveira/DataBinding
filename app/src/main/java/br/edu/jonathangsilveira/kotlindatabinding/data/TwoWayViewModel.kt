@@ -7,7 +7,7 @@ import android.util.Log
 
 class TwoWayViewModel(application: Application) : AndroidViewModel(application) {
 
-    val value: MutableLiveData<String> by lazy { MutableLiveData<String>() }
+    val value: MutableLiveData<Double> by lazy { MutableLiveData<Double>().apply { value = 10.8 } }
 
     val isShowingValues: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().apply {

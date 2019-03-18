@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
+import br.edu.jonathangsilveira.kotlindatabinding.R
 import br.edu.jonathangsilveira.kotlindatabinding.util.format
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -32,27 +33,42 @@ class MoneyTextInputEditText : TextInputEditText {
 
     var value: Double
         get() = _value.toDouble()
-        set(value) {
-            val newValue = value * 100
-            _value = BigDecimal.valueOf(newValue)
-            valueBuilder.clear()
-            setText(newValue.toLong().toString())
-        }
+        set(value) = updateValue(value)
+
+    private fun updateValue(value: Double) {
+        val newValue = value * 100
+        _value = BigDecimal.valueOf(newValue)
+        valueBuilder.clear()
+        setText(newValue.toLong().toString())
+        invalidate()
+        requestLayout()
+    }
 
     constructor(context: Context) : super(context) {
-        setup()
+        setup(null)
     }
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        setup()
+        setup(attrs)
     }
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) :
             super(context, attrs, defStyleAttr) {
-        setup()
+        setup(attrs)
     }
 
-    private fun setup() {
+    private fun setup(attrs: AttributeSet?) {
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.MoneyTextInputEditText,
+            0, 0).apply {
+            try {
+                val attrValue = getFloat(R.styleable.MoneyTextInputEditText_value, 0F)
+                _value = attrValue.toBigDecimal()
+            } finally {
+                recycle()
+            }
+        }
         /*mClearImage =
                 ResourcesCompat.getDrawable(getResources(), R.drawable.round_clear_black_24, null);
         setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);*/
