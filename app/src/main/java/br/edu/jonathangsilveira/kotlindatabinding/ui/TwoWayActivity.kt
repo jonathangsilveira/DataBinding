@@ -17,12 +17,12 @@ class TwoWayActivity : AppCompatActivity() {
             viewModel = ViewModelProviders.of(this@TwoWayActivity).get(TwoWayViewModel::class.java)
             lifecycleOwner = this@TwoWayActivity
             paymentMethods.setOnCheckedChangeListener { view, checkedId ->
-                this.viewModel?.onPaymentoMethodSelected(view.findViewById<RadioButton>(checkedId)?.tag?.toString())
+                this.viewModel?.onPaymentMethodSelected(view.findViewById<RadioButton>(checkedId)?.tag?.toString())
             }
             value.setAfterTextChangedListener { newValue ->
                 viewModel?.value?.let { property ->
                     if (newValue != property.value)
-                        property.value = newValue
+                        viewModel?.onValueChanged(newValue)
                 }
             }
         }

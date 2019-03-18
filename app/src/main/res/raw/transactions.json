@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "method": 1,
+    "description": "",
+    "value": 12.45
+  },
+  {
+    "id": 2,
+    "method": 1,
+    "description": "some description",
+    "value": 12.45
+  },
+  {
+    "id": 3,
+    "method": 1,
+    "description": "some description",
+    "value": 12.45
+  },
+  {
+    "id": 4,
+    "method": 1,
+    "description": "some description",
+    "value": 12.45
+  },
+  {
+    "id": 5,
+    "method": 1,
+    "description": "some description",
+    "value": 12.45
+  },
+  {
+    "id": 6,
+    "method": 1,
+    "description": "some description",
+    "value": 12.45
+  },
+  {
+    "id": 7,
+    "method": 2,
+    "description": "some description",
+    "value": 12.45
+  },
+  {
+    "id": 8,
+    "method": 2,
+    "description": "some description",
+    "value": 12.45
+  },
+  {
+    "id": 9,
+    "method": 2,
+    "description": "some description",
+    "value": 12.45
+  },
+  {
+    "id": 10,
+    "method": 2,
+    "description": "some description",
+    "value": 12.45
+  },
+  {
+    "id": 11,
+    "method": 2,
+    "description": "some description",
+    "value": 12.45
+  },
+  {
+    "id": 12,
+    "method": 2,
+    "description": "some description",
+    "value": 12.45
+  },
+  {
+    "id": 13,
+    "method": 2,
+    "description": "some description",
+    "value": 12.45
+  },
+  {
+    "id": 14,
+    "method": 2,
+    "description": "some description",
+    "value": 12.45
+  },
+  {
+    "id": 15,
+    "method": 2,
+    "description": "some description",
+    "value": 12.45
+  }
+]
