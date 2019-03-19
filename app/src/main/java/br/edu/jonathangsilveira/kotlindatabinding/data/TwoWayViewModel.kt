@@ -8,9 +8,9 @@ import br.edu.jonathangsilveira.kotlindatabinding.model.Transaction
 
 class TwoWayViewModel(application: Application) : AndroidViewModel(application) {
 
-    val repo = FakeRepository
+    private val repo = FakeRepository
 
-    val value: MutableLiveData<Double> by lazy { MutableLiveData<Double>().apply { value = 10.8 } }
+    val value: MutableLiveData<Double> by lazy { MutableLiveData<Double>().apply { value = 0.0 } }
 
     val isShowingValues: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().apply {
@@ -32,6 +32,14 @@ class TwoWayViewModel(application: Application) : AndroidViewModel(application) 
     val isCreditSelected: Boolean
         get() = paymentMethod.value == "credit"
 
+    init {
+        Thread {
+            Log.d(TAG, "Repo loading started!")
+            repo.load(getApplication<Application>().resources)
+            Log.d(TAG, "Repo loading finished!")
+        }.start()
+    }
+
     fun onShowValuesChanged(isChecked: Boolean) {
         Log.d(TAG, "onShowValuesChanged(Boolean) -> $isChecked")
     }
@@ -49,7 +57,7 @@ class TwoWayViewModel(application: Application) : AndroidViewModel(application) 
     private fun filter() {
         transactions.value = repo.filter(
             value = value.value ?: 0.0,
-            method = if (paymentMethod.value == "debit") 1 else 2
+            method = if (paymentMethod.value == "Debit") 1 else 2
         )
     }
 

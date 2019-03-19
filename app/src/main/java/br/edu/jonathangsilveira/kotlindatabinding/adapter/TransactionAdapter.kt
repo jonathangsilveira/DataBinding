@@ -12,7 +12,7 @@ import br.edu.jonathangsilveira.kotlindatabinding.util.format
 
 class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
-    private val data: MutableList<Transaction> = mutableListOf()
+    private val dataSet: MutableList<Transaction> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): TransactionViewHolder {
         val binding = DataBindingUtil.inflate<TransactionItemBinding>(
@@ -27,16 +27,25 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.TransactionVi
         )
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int = dataSet.size
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-        data[position].also {transaction ->
-            with(holder.binding) {
+        dataSet[position].also { transaction ->
+            holder.binding.apply {
                 setValue(transaction.value.format())
                 setDescription(transaction.description)
                 executePendingBindings()
             }
         }
+    }
+
+    fun updateData(transactions: List<Transaction>?) {
+        dataSet.apply {
+            clear()
+            if (!transactions.isNullOrEmpty())
+                addAll(transactions)
+        }
+        notifyDataSetChanged()
     }
 
     inner class TransactionViewHolder(
